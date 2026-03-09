@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import chatbotAvatar from "@/assets/chatbot-avatar.png";
 
 type Message = { role: "user" | "bot"; content: string };
 
