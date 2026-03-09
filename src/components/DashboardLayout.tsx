@@ -2,9 +2,10 @@ import { useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate, Outlet } from "react-router-dom";
-import { Bell, Sun, Moon, X } from "lucide-react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Bell, Sun, Moon, X, Search } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const mockNotifications = [
   { id: 1, title: "New lead assigned", message: "John Smith is interested in 2024 BMW X5", time: "5 min ago", read: false },
@@ -13,86 +14,151 @@ const mockNotifications = [
   { id: 4, title: "Deal closed", message: "Honda Accord sold to Jane Doe", time: "3 hours ago", read: true },
 ];
 
+const pageTitles: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/vehicles": "Vehicle Inventory",
+  "/appraisal": "Used Vehicle Appraisal",
+  "/leads": "Sales Leads",
+  "/deals": "Deals",
+  "/service": "Service Scheduling",
+  "/parts": "Parts Inventory",
+  "/customers": "Customers",
+  "/reports": "Reports & Analytics",
+  "/settings": "Settings",
+};
+
 export default function DashboardLayout() {
   const { isAuthenticated, user } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState(mockNotifications);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
-
   const markAllRead = () => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  const currentTitle = pageTitles[location.pathname] || "Dashboard";
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 flex items-center justify-between border-b border-border px-4 bg-card/50 backdrop-blur-sm shrink-0">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger />
+          {/* Header */}
+          <header className="sticky top-0 z-30 h-16 flex items-center justify-between border-b border-border px-4 md:px-6 bg-card/80 backdrop-blur-xl">
+            <div className="flex items-center gap-4">
+              <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
+              <div className="hidden sm:block h-6 w-px bg-border" />
+              <div className="hidden sm:block">
+                <h2 className="text-sm font-display font-semibold text-foreground">{currentTitle}</h2>
+                <p className="text-[10px] text-muted-foreground">Welcome back, {user?.name ?? "Admin"}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <button onClick={toggleTheme} className="relative p-2 rounded-lg hover:bg-secondary transition-colors" title="Toggle theme">
-                {theme === "dark" ? <Sun className="h-4 w-4 text-muted-foreground" /> : <Moon className="h-4 w-4 text-muted-foreground" />}
-              </button>
+
+            <div className="flex items-center gap-2">
+              {/* Search bar */}
+              <div className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl bg-secondary/70 border border-border/50 text-muted-foreground text-sm w-56 transition-all focus-within:w-72 focus-within:border-primary/30 focus-within:shadow-sm">
+                <Search className="h-3.5 w-3.5 shrink-0" />
+                <input className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm" placeholder="Search..." />
+              </div>
+
+              {/* Theme toggle */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleTheme}
+                className="relative p-2.5 rounded-xl hover:bg-secondary border border-transparent hover:border-border/50 transition-all"
+                title="Toggle theme"
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={theme}
+                    initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {theme === "dark" ? <Sun className="h-4 w-4 text-muted-foreground" /> : <Moon className="h-4 w-4 text-muted-foreground" />}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.button>
+
+              {/* Notifications */}
               <div className="relative">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setShowNotifications((v) => !v)}
-                  className="relative p-2 rounded-lg hover:bg-secondary transition-colors"
+                  className="relative p-2.5 rounded-xl hover:bg-secondary border border-transparent hover:border-border/50 transition-all"
                 >
                   <Bell className="h-4 w-4 text-muted-foreground" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary" />
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-card"
+                    />
                   )}
-                </button>
-                {showNotifications && (
-                  <div className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-border bg-card shadow-lg z-50 overflow-hidden animate-fade-in">
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                      <h4 className="text-sm font-semibold">Notifications</h4>
-                      <div className="flex items-center gap-2">
-                        {unreadCount > 0 && (
-                          <button onClick={markAllRead} className="text-xs text-primary hover:underline">
-                            Mark all read
-                          </button>
-                        )}
-                        <button onClick={() => setShowNotifications(false)} className="p-1 rounded hover:bg-secondary">
-                          <X className="h-3 w-3 text-muted-foreground" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="max-h-72 overflow-y-auto">
-                      {notifications.map((n) => (
-                        <div
-                          key={n.id}
-                          className={`px-4 py-3 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer ${!n.read ? "bg-primary/5" : ""}`}
-                          onClick={() => setNotifications((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x))}
-                        >
-                          <div className="flex items-start gap-2">
-                            {!n.read && <span className="mt-1.5 h-2 w-2 rounded-full bg-primary shrink-0" />}
-                            <div className={!n.read ? "" : "ml-4"}>
-                              <p className="text-sm font-medium">{n.title}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5">{n.message}</p>
-                              <p className="text-xs text-muted-foreground mt-1">{n.time}</p>
-                            </div>
-                          </div>
+                </motion.button>
+
+                <AnimatePresence>
+                  {showNotifications && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 top-full mt-2 w-80 rounded-2xl border border-border bg-card shadow-xl z-50 overflow-hidden"
+                    >
+                      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-secondary/30">
+                        <h4 className="text-sm font-display font-semibold">Notifications</h4>
+                        <div className="flex items-center gap-2">
+                          {unreadCount > 0 && (
+                            <button onClick={markAllRead} className="text-[11px] text-primary font-medium hover:underline">Mark all read</button>
+                          )}
+                          <button onClick={() => setShowNotifications(false)} className="p-1 rounded-lg hover:bg-secondary"><X className="h-3.5 w-3.5 text-muted-foreground" /></button>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                      </div>
+                      <div className="max-h-72 overflow-y-auto">
+                        {notifications.map((n) => (
+                          <motion.div
+                            key={n.id}
+                            whileHover={{ backgroundColor: "hsl(var(--secondary) / 0.5)" }}
+                            className={`px-4 py-3 border-b border-border/50 last:border-0 cursor-pointer transition-colors ${!n.read ? "bg-primary/[0.03]" : ""}`}
+                            onClick={() => setNotifications((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x))}
+                          >
+                            <div className="flex items-start gap-2.5">
+                              {!n.read && <span className="mt-1.5 h-2 w-2 rounded-full bg-primary shrink-0" />}
+                              <div className={!n.read ? "" : "ml-[18px]"}>
+                                <p className="text-sm font-medium text-foreground">{n.title}</p>
+                                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{n.message}</p>
+                                <p className="text-[10px] text-muted-foreground/70 mt-1">{n.time}</p>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+
+              {/* User avatar */}
+              <div className="flex items-center gap-2.5 pl-2 ml-1 border-l border-border">
+                <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center text-primary text-sm font-bold">
                   {user?.name?.[0] ?? "A"}
                 </div>
-                <span className="text-sm text-foreground hidden sm:inline">{user?.name}</span>
+                <div className="hidden lg:block">
+                  <p className="text-sm font-medium text-foreground leading-tight">{user?.name}</p>
+                  <p className="text-[10px] text-muted-foreground">Administrator</p>
+                </div>
               </div>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-4 md:p-6">
+
+          {/* Main content */}
+          <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
             <Outlet />
           </main>
         </div>
