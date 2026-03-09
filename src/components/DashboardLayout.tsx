@@ -55,44 +55,64 @@ export default function DashboardLayout() {
   // Close search on route change but keep query
   useEffect(() => { setShowSearch(false); }, [location.pathname]);
 
-  // Case-sensitive global search
+  // Global search (case-insensitive)
   const searchResults = useMemo(() => {
-    if (!searchQuery || searchQuery.length < 2) return [];
-    const q = searchQuery; // case-sensitive
+    if (!searchQuery || searchQuery.length < 1) return [];
+    const q = searchQuery.toLowerCase();
     const results: { category: string; icon: any; label: string; sub: string; route: string }[] = [];
 
+    // Search sidebar pages
+    const pages = [
+      { label: "Dashboard", sub: "Overview & KPIs", route: "/dashboard", icon: LayoutDashboard },
+      { label: "Vehicle Inventory", sub: "Browse all vehicles", route: "/vehicles", icon: Car },
+      { label: "Used Vehicle Appraisal", sub: "Appraise trade-ins", route: "/appraisal", icon: ClipboardCheck },
+      { label: "Sales Leads", sub: "Manage leads & prospects", route: "/leads", icon: Users },
+      { label: "Deals", sub: "Track deals & transactions", route: "/deals", icon: Handshake },
+      { label: "Service Scheduling", sub: "Schedule & manage services", route: "/service", icon: Wrench },
+      { label: "Parts Inventory", sub: "Parts & supplies", route: "/parts", icon: Package },
+      { label: "Customers", sub: "Customer database", route: "/customers", icon: UserCircle },
+      { label: "Reports & Analytics", sub: "Revenue & performance", route: "/reports", icon: BarChart3 },
+      { label: "Settings", sub: "Account & preferences", route: "/settings", icon: Settings },
+    ];
+    pages.forEach((p) => {
+      if (p.label.toLowerCase().includes(q)) {
+        results.push({ category: "Pages", icon: p.icon, label: p.label, sub: p.sub, route: p.route });
+      }
+    });
+
+    // Search data
     mockVehicles.forEach((v) => {
-      if ([v.name, v.model, v.vin, v.color, v.stockStatus].some((s) => s.includes(q))) {
+      if ([v.name, v.model, v.vin, v.color, v.stockStatus].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Vehicles", icon: Car, label: `${v.name} ${v.model}`, sub: `${v.year} · ${v.color} · ${v.stockStatus}`, route: "/vehicles" });
       }
     });
     mockLeads.forEach((l) => {
-      if ([l.name, l.contact, l.vehicleInterested, l.source, l.status].some((s) => s.includes(q))) {
+      if ([l.name, l.contact, l.vehicleInterested, l.source, l.status].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Leads", icon: Users, label: l.name, sub: `${l.vehicleInterested} · ${l.status}`, route: "/leads" });
       }
     });
     mockDeals.forEach((d) => {
-      if ([d.customerName, d.vehicle, d.type].some((s) => s.includes(q))) {
+      if ([d.customerName, d.vehicle, d.type].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Deals", icon: Handshake, label: d.customerName, sub: `${d.vehicle} · ${d.type}`, route: "/deals" });
       }
     });
     mockAppointments.forEach((a) => {
-      if ([a.customerName, a.vehicle, a.serviceType, a.technician, a.status].some((s) => s.includes(q))) {
+      if ([a.customerName, a.vehicle, a.serviceType, a.technician, a.status].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Service", icon: Wrench, label: a.customerName, sub: `${a.serviceType} · ${a.status}`, route: "/service" });
       }
     });
     mockParts.forEach((p) => {
-      if ([p.name, p.partNumber, p.supplier].some((s) => s.includes(q))) {
+      if ([p.name, p.partNumber, p.supplier].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Parts", icon: Package, label: p.name, sub: `${p.partNumber} · ${p.supplier}`, route: "/parts" });
       }
     });
     mockCustomers.forEach((c) => {
-      if ([c.name, c.phone, c.email, ...c.vehiclesOwned].some((s) => s.includes(q))) {
+      if ([c.name, c.phone, c.email, ...c.vehiclesOwned].some((s) => s.toLowerCase().includes(q))) {
         results.push({ category: "Customers", icon: UserCircle, label: c.name, sub: `${c.email}`, route: "/customers" });
       }
     });
 
-    return results.slice(0, 12);
+    return results.slice(0, 15);
   }, [searchQuery]);
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
