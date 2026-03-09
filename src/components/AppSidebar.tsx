@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   LayoutDashboard, Car, ClipboardCheck, Users, Handshake, Wrench,
   Package, UserCircle, BarChart3, Settings, LogOut, Sparkles, Crown
@@ -6,6 +7,7 @@ import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import PricingModal from "@/components/PricingModal";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
