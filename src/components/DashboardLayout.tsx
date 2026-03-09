@@ -110,9 +110,68 @@ export default function DashboardLayout() {
 
             <div className="flex items-center gap-2">
               {/* Search bar */}
-              <div className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl bg-secondary/70 border border-border/50 text-muted-foreground text-sm w-56 transition-all focus-within:w-72 focus-within:border-primary/30 focus-within:shadow-sm">
-                <Search className="h-3.5 w-3.5 shrink-0" />
-                <input className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm" placeholder="Search..." />
+              <div className="hidden md:block relative" ref={searchRef}>
+                <div className="flex items-center gap-2 h-9 px-3 rounded-xl bg-secondary/70 border border-border/50 text-muted-foreground text-sm w-56 transition-all focus-within:w-72 focus-within:border-primary/30 focus-within:shadow-sm">
+                  <Search className="h-3.5 w-3.5 shrink-0" />
+                  <input
+                    className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm"
+                    placeholder="Search (case-sensitive)..."
+                    value={searchQuery}
+                    onChange={(e) => { setSearchQuery(e.target.value); setShowSearch(true); }}
+                    onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
+                  />
+                  {searchQuery && (
+                    <button onClick={() => { setSearchQuery(""); setShowSearch(false); }} className="text-muted-foreground hover:text-foreground">
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Search results dropdown */}
+                <AnimatePresence>
+                  {showSearch && searchQuery.length >= 2 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full mt-2 right-0 w-96 rounded-2xl border border-border bg-card shadow-xl z-50 overflow-hidden"
+                    >
+                      <div className="px-4 py-2.5 border-b border-border bg-secondary/30">
+                        <p className="text-xs text-muted-foreground font-medium">
+                          {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for "<span className="text-foreground font-semibold">{searchQuery}</span>"
+                          <span className="ml-1 text-[10px] text-muted-foreground/60">(case-sensitive)</span>
+                        </p>
+                      </div>
+                      <div className="max-h-80 overflow-y-auto scrollbar-hide">
+                        {searchResults.length === 0 ? (
+                          <div className="px-4 py-8 text-center">
+                            <Search className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
+                            <p className="text-sm text-muted-foreground">No results found</p>
+                            <p className="text-xs text-muted-foreground/60 mt-0.5">Search is case-sensitive. Try adjusting capitalization.</p>
+                          </div>
+                        ) : (
+                          searchResults.map((r, i) => (
+                            <button
+                              key={`${r.category}-${i}`}
+                              onClick={() => { navigate(r.route); setShowSearch(false); setSearchQuery(""); }}
+                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors text-left border-b border-border/30 last:border-0"
+                            >
+                              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                <r.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium text-foreground truncate">{r.label}</p>
+                                <p className="text-[11px] text-muted-foreground truncate">{r.sub}</p>
+                              </div>
+                              <span className="text-[10px] font-medium text-muted-foreground/60 bg-secondary px-2 py-0.5 rounded-full shrink-0">{r.category}</span>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Theme toggle */}
