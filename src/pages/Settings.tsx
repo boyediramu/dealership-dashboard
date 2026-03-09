@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { toast } from "sonner";
+import { Sun, Moon } from "lucide-react";
 
 export default function SettingsPage() {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [name, setName] = useState(user?.name || "");
   const [email] = useState(user?.email || "");
   const [notifications, setNotifications] = useState({ email: true, push: true, sms: false });
@@ -53,7 +56,18 @@ export default function SettingsPage() {
 
       <div className="kpi-card">
         <h3 className="text-sm font-semibold mb-4">Appearance</h3>
-        <p className="text-sm text-muted-foreground">Current theme: Dark (Automotive)</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm">Theme</p>
+            <p className="text-xs text-muted-foreground">Switch between light and dark mode</p>
+          </div>
+          <button
+            onClick={() => { toggleTheme(); toast.success(`Switched to ${theme === "dark" ? "light" : "dark"} mode`); }}
+            className="flex items-center gap-2 h-9 px-4 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium hover:opacity-90 transition-colors"
+          >
+            {theme === "dark" ? <><Sun className="h-4 w-4" /> Light Mode</> : <><Moon className="h-4 w-4" /> Dark Mode</>}
+          </button>
+        </div>
       </div>
     </div>
   );
