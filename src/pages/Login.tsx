@@ -168,6 +168,13 @@ export default function Login() {
               </div>
             </div>
 
+            <p className="text-center text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-primary font-medium hover:underline">
+                Register
+              </Link>
+            </p>
+
             <div className="rounded-lg border border-border bg-card/50 px-4 py-3 space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">Email</span>
