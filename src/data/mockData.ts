@@ -152,7 +152,7 @@ export const monthlyRevenue = [
 ];
 
 export const inventoryByCategory = [
-  { name: "Sedans", value: 35, fill: "hsl(174, 72%, 42%)" },
+  { name: "Sedans", value: 35, fill: "hsl(207, 90%, 54%)" },
   { name: "SUVs", value: 28, fill: "hsl(38, 92%, 55%)" },
   { name: "Trucks", value: 18, fill: "hsl(152, 69%, 45%)" },
   { name: "Luxury", value: 12, fill: "hsl(280, 65%, 60%)" },
