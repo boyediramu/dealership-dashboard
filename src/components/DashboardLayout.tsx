@@ -148,7 +148,7 @@ export default function DashboardLayout() {
                           <div className="px-4 py-8 text-center">
                             <Search className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
                             <p className="text-sm text-muted-foreground">No results found</p>
-                            <p className="text-xs text-muted-foreground/60 mt-0.5">Search is case-sensitive. Try adjusting capitalization.</p>
+                            <p className="text-xs text-muted-foreground/60 mt-0.5">Try a different search term.</p>
                           </div>
                         ) : (
                           searchResults.map((r, i) => (
