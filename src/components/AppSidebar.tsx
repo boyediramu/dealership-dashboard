@@ -118,6 +118,7 @@ export function AppSidebar() {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showPricing, setShowPricing] = useState(false);
 
   const handleLogout = () => {
     logout();
