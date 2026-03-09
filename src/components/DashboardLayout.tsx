@@ -154,7 +154,12 @@ export default function DashboardLayout() {
 
           {/* Main content */}
           <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
+            <div className="mb-6">
+              <h1 className="text-2xl font-display font-bold text-foreground">{currentTitle}</h1>
+              <p className="text-sm text-muted-foreground mt-0.5">Welcome back, {user?.name ?? "Admin"}</p>
+            </div>
             <Outlet />
+          </main>
           </main>
         </div>
       </div>
