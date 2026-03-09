@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Bell, Sun, Moon, X, Search } from "lucide-react";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Bell, Sun, Moon, X, Search, Car, Users, Handshake, Wrench, Package, UserCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { mockVehicles, mockLeads, mockDeals, mockAppointments, mockParts, mockCustomers } from "@/data/mockData";
 
 const mockNotifications = [
   { id: 1, title: "New lead assigned", message: "John Smith is interested in 2024 BMW X5", time: "5 min ago", read: false },
@@ -31,12 +32,68 @@ export default function DashboardLayout() {
   const { isAuthenticated, user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState(mockNotifications);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
   const markAllRead = () => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   const currentTitle = pageTitles[location.pathname] || "Dashboard";
+
+  // Close search on click outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setShowSearch(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close search on route change
+  useEffect(() => { setShowSearch(false); setSearchQuery(""); }, [location.pathname]);
+
+  // Case-sensitive global search
+  const searchResults = useMemo(() => {
+    if (!searchQuery || searchQuery.length < 2) return [];
+    const q = searchQuery; // case-sensitive
+    const results: { category: string; icon: any; label: string; sub: string; route: string }[] = [];
+
+    mockVehicles.forEach((v) => {
+      if ([v.name, v.model, v.vin, v.color, v.stockStatus].some((s) => s.includes(q))) {
+        results.push({ category: "Vehicles", icon: Car, label: `${v.name} ${v.model}`, sub: `${v.year} · ${v.color} · ${v.stockStatus}`, route: "/vehicles" });
+      }
+    });
+    mockLeads.forEach((l) => {
+      if ([l.name, l.contact, l.vehicleInterested, l.source, l.status].some((s) => s.includes(q))) {
+        results.push({ category: "Leads", icon: Users, label: l.name, sub: `${l.vehicleInterested} · ${l.status}`, route: "/leads" });
+      }
+    });
+    mockDeals.forEach((d) => {
+      if ([d.customerName, d.vehicle, d.type].some((s) => s.includes(q))) {
+        results.push({ category: "Deals", icon: Handshake, label: d.customerName, sub: `${d.vehicle} · ${d.type}`, route: "/deals" });
+      }
+    });
+    mockAppointments.forEach((a) => {
+      if ([a.customerName, a.vehicle, a.serviceType, a.technician, a.status].some((s) => s.includes(q))) {
+        results.push({ category: "Service", icon: Wrench, label: a.customerName, sub: `${a.serviceType} · ${a.status}`, route: "/service" });
+      }
+    });
+    mockParts.forEach((p) => {
+      if ([p.name, p.partNumber, p.supplier].some((s) => s.includes(q))) {
+        results.push({ category: "Parts", icon: Package, label: p.name, sub: `${p.partNumber} · ${p.supplier}`, route: "/parts" });
+      }
+    });
+    mockCustomers.forEach((c) => {
+      if ([c.name, c.phone, c.email, ...c.vehiclesOwned].some((s) => s.includes(q))) {
+        results.push({ category: "Customers", icon: UserCircle, label: c.name, sub: `${c.email}`, route: "/customers" });
+      }
+    });
+
+    return results.slice(0, 12);
+  }, [searchQuery]);
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
@@ -53,9 +110,68 @@ export default function DashboardLayout() {
 
             <div className="flex items-center gap-2">
               {/* Search bar */}
-              <div className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl bg-secondary/70 border border-border/50 text-muted-foreground text-sm w-56 transition-all focus-within:w-72 focus-within:border-primary/30 focus-within:shadow-sm">
-                <Search className="h-3.5 w-3.5 shrink-0" />
-                <input className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm" placeholder="Search..." />
+              <div className="hidden md:block relative" ref={searchRef}>
+                <div className="flex items-center gap-2 h-9 px-3 rounded-xl bg-secondary/70 border border-border/50 text-muted-foreground text-sm w-56 transition-all focus-within:w-72 focus-within:border-primary/30 focus-within:shadow-sm">
+                  <Search className="h-3.5 w-3.5 shrink-0" />
+                  <input
+                    className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm"
+                    placeholder="Search (case-sensitive)..."
+                    value={searchQuery}
+                    onChange={(e) => { setSearchQuery(e.target.value); setShowSearch(true); }}
+                    onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
+                  />
+                  {searchQuery && (
+                    <button onClick={() => { setSearchQuery(""); setShowSearch(false); }} className="text-muted-foreground hover:text-foreground">
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Search results dropdown */}
+                <AnimatePresence>
+                  {showSearch && searchQuery.length >= 2 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full mt-2 right-0 w-96 rounded-2xl border border-border bg-card shadow-xl z-50 overflow-hidden"
+                    >
+                      <div className="px-4 py-2.5 border-b border-border bg-secondary/30">
+                        <p className="text-xs text-muted-foreground font-medium">
+                          {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for "<span className="text-foreground font-semibold">{searchQuery}</span>"
+                          <span className="ml-1 text-[10px] text-muted-foreground/60">(case-sensitive)</span>
+                        </p>
+                      </div>
+                      <div className="max-h-80 overflow-y-auto scrollbar-hide">
+                        {searchResults.length === 0 ? (
+                          <div className="px-4 py-8 text-center">
+                            <Search className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
+                            <p className="text-sm text-muted-foreground">No results found</p>
+                            <p className="text-xs text-muted-foreground/60 mt-0.5">Search is case-sensitive. Try adjusting capitalization.</p>
+                          </div>
+                        ) : (
+                          searchResults.map((r, i) => (
+                            <button
+                              key={`${r.category}-${i}`}
+                              onClick={() => { navigate(r.route); setShowSearch(false); setSearchQuery(""); }}
+                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors text-left border-b border-border/30 last:border-0"
+                            >
+                              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                <r.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium text-foreground truncate">{r.label}</p>
+                                <p className="text-[11px] text-muted-foreground truncate">{r.sub}</p>
+                              </div>
+                              <span className="text-[10px] font-medium text-muted-foreground/60 bg-secondary px-2 py-0.5 rounded-full shrink-0">{r.category}</span>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Theme toggle */}
