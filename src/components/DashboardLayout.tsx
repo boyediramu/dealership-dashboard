@@ -21,6 +21,9 @@ export default function DashboardLayout() {
               <SidebarTrigger />
             </div>
             <div className="flex items-center gap-3">
+              <button onClick={toggleTheme} className="relative p-2 rounded-lg hover:bg-secondary transition-colors" title="Toggle theme">
+                {theme === "dark" ? <Sun className="h-4 w-4 text-muted-foreground" /> : <Moon className="h-4 w-4 text-muted-foreground" />}
+              </button>
               <button className="relative p-2 rounded-lg hover:bg-secondary transition-colors">
                 <Bell className="h-4 w-4 text-muted-foreground" />
                 <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary" />
