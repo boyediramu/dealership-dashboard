@@ -107,13 +107,18 @@ export default function VehicleInventory() {
               className="rounded-2xl border border-border bg-card overflow-hidden group cursor-default"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
-              {/* Card Header with color accent */}
-              <div className="h-28 relative overflow-hidden" style={{ background: "var(--gradient-primary)" }}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Car className="h-16 w-16 text-primary-foreground/20" />
-                </div>
+              {/* Card Header with vehicle image */}
+              <div className="h-40 relative overflow-hidden bg-secondary/30">
+                {v.image ? (
+                  <img src={v.image} alt={`${v.name} ${v.model}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center" style={{ background: "var(--gradient-primary)" }}>
+                    <Car className="h-16 w-16 text-primary-foreground/20" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 <div className="absolute top-3 left-3">
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold border ${statusStyle(v.stockStatus)}`}>
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold border backdrop-blur-sm ${statusStyle(v.stockStatus)}`}>
                     {v.stockStatus}
                   </span>
                 </div>
