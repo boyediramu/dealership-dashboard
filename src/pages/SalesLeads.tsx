@@ -105,8 +105,14 @@ export default function SalesLeads() {
                 </motion.button>
 
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="h-11 w-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-                    {l.name.split(" ").map(n => n[0]).join("")}
+                  <div className="h-12 w-12 rounded-xl overflow-hidden shrink-0">
+                    {l.image ? (
+                      <img src={l.image} alt={l.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="h-full w-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                        {l.name.split(" ").map(n => n[0]).join("")}
+                      </div>
+                    )}
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-display font-bold text-foreground truncate">{l.name}</p>

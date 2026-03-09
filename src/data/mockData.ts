@@ -28,6 +28,7 @@ export interface Lead {
   source: "Web" | "Phone" | "Third Party";
   status: "New" | "Contacted" | "Qualified" | "Lost";
   assignedTo?: string;
+  image?: string;
 }
 
 export interface Deal {
@@ -88,12 +89,18 @@ export const mockVehicles: Vehicle[] = [
   { id: "v8", name: "Mercedes-Benz C-Class", model: "C300", year: 2024, price: 47200, stockStatus: "In Stock", vin: "W1KWF8DB5MR123456", color: "Obsidian Black", image: mercedesCClassImg },
 ];
 
+import johnMitchellImg from "@/assets/leads/john-mitchell.jpg";
+import sarahChenImg from "@/assets/leads/sarah-chen.jpg";
+import mikeRodriguezImg from "@/assets/leads/mike-rodriguez.jpg";
+import emilyWatsonImg from "@/assets/leads/emily-watson.jpg";
+import davidKimImg from "@/assets/leads/david-kim.jpg";
+
 export const mockLeads: Lead[] = [
-  { id: "l1", name: "John Mitchell", contact: "john@email.com", vehicleInterested: "Toyota Camry XSE", source: "Web", status: "New" },
-  { id: "l2", name: "Sarah Chen", contact: "(555) 234-5678", vehicleInterested: "BMW 3 Series 330i", source: "Phone", status: "Contacted" },
-  { id: "l3", name: "Mike Rodriguez", contact: "mike.r@email.com", vehicleInterested: "Ford F-150 Lariat", source: "Third Party", status: "Qualified" },
-  { id: "l4", name: "Emily Watson", contact: "(555) 876-5432", vehicleInterested: "Tesla Model 3", source: "Web", status: "New" },
-  { id: "l5", name: "David Kim", contact: "d.kim@email.com", vehicleInterested: "Audi Q5", source: "Phone", status: "Lost" },
+  { id: "l1", name: "John Mitchell", contact: "john@email.com", vehicleInterested: "Toyota Camry XSE", source: "Web", status: "New", image: johnMitchellImg },
+  { id: "l2", name: "Sarah Chen", contact: "(555) 234-5678", vehicleInterested: "BMW 3 Series 330i", source: "Phone", status: "Contacted", image: sarahChenImg },
+  { id: "l3", name: "Mike Rodriguez", contact: "mike.r@email.com", vehicleInterested: "Ford F-150 Lariat", source: "Third Party", status: "Qualified", image: mikeRodriguezImg },
+  { id: "l4", name: "Emily Watson", contact: "(555) 876-5432", vehicleInterested: "Tesla Model 3", source: "Web", status: "New", image: emilyWatsonImg },
+  { id: "l5", name: "David Kim", contact: "d.kim@email.com", vehicleInterested: "Audi Q5", source: "Phone", status: "Lost", image: davidKimImg },
 ];
 
 export const mockDeals: Deal[] = [
