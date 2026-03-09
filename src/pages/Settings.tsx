@@ -26,13 +26,14 @@ const tabs: { id: Tab; label: string; icon: typeof User }[] = [
 ];
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<Tab>("profile");
   const [name, setName] = useState(user?.name || "");
   const [email] = useState(user?.email || "");
-  const [phone, setPhone] = useState("+1 (555) 000-0000");
-  const [bio, setBio] = useState("");
+  const [phone, setPhone] = useState(user?.phone || "+1 (555) 000-0000");
+  const [bio, setBio] = useState(user?.bio || "");
+  const [timezone, setTimezone] = useState(user?.timezone || "UTC-05:00 (Eastern)");
   const [showPassword, setShowPassword] = useState(false);
   const [notifications, setNotifications] = useState({
     email: true, push: true, sms: false, deals: true, inventory: true, service: false,
@@ -40,6 +41,7 @@ export default function SettingsPage() {
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
+    updateUser({ name, phone, bio, timezone });
     toast.success("Profile updated successfully");
   };
 
