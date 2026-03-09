@@ -1,8 +1,51 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Car, Eye, EyeOff, ArrowRight, Shield, BarChart3, Users, Sparkles } from "lucide-react";
+import { Car, Eye, EyeOff, ArrowRight, BarChart3, Users, Shield } from "lucide-react";
 import { motion } from "framer-motion";
+
+const features = [
+  {
+    icon: BarChart3,
+    title: "Real-time Analytics",
+    desc: "Track sales and revenue performance instantly",
+  },
+  {
+    icon: Users,
+    title: "Customer Management",
+    desc: "Manage and build relationships with customers",
+  },
+  {
+    icon: Shield,
+    title: "Secure & Reliable",
+    desc: "Enterprise-grade security and system reliability",
+  },
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+  },
+};
+
+const formVariants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number], delay: 0.15 },
+  },
+};
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,6 +53,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -31,243 +75,326 @@ export default function Login() {
     setIsLoading(false);
   };
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-    }),
-  } as const;
-
-  const features = [
-    { icon: BarChart3, title: "Real-time Analytics", desc: "Track sales performance and revenue instantly" },
-    { icon: Users, title: "Customer Management", desc: "Build lasting relationships with your customers" },
-    { icon: Shield, title: "Secure & Reliable", desc: "Enterprise-grade security for your data" },
-  ];
-
   return (
-    <div className="min-h-screen flex bg-background">
-      {/* Left panel - branding */}
+    <div
+      className="min-h-screen flex flex-col lg:flex-row"
+      style={{ background: "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #EFF6FF 100%)" }}
+    >
+      {/* Left – Branding Panel */}
       <motion.div
-        initial={{ opacity: 0, x: -40 }}
+        initial={{ opacity: 0, x: -30 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="hidden lg:flex lg:w-[55%] relative overflow-hidden flex-col justify-between p-12"
-        style={{ background: "var(--gradient-primary)" }}
+        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+        className="lg:w-[52%] flex flex-col justify-between p-8 sm:p-12 lg:p-16 relative overflow-hidden"
+        style={{
+          background: "linear-gradient(160deg, #EFF6FF 0%, #DBEAFE 40%, #BFDBFE 100%)",
+        }}
       >
-        {/* Animated decorative shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.05, 0.08, 0.05] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-primary-foreground/5"
+        {/* Decorative blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute -top-20 -right-20 w-72 h-72 rounded-full opacity-30"
+            style={{ background: "radial-gradient(circle, #93C5FD 0%, transparent 70%)" }}
           />
-          <motion.div
-            animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.1, 0.05] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute top-1/3 -right-32 w-[500px] h-[500px] rounded-full bg-primary-foreground/5"
+          <div
+            className="absolute bottom-10 -left-16 w-56 h-56 rounded-full opacity-20"
+            style={{ background: "radial-gradient(circle, #60A5FA 0%, transparent 70%)" }}
           />
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.07, 0.05] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute -bottom-16 left-1/4 w-72 h-72 rounded-full bg-primary-foreground/5"
+          <div
+            className="absolute top-1/2 right-1/4 w-40 h-40 rounded-full opacity-15"
+            style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }}
           />
         </div>
 
+        {/* Logo */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="relative z-10"
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="relative z-10 flex items-center gap-3"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-xl bg-primary-foreground/15 backdrop-blur-sm flex items-center justify-center">
-              <Car className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-primary-foreground text-lg tracking-tight">Nexgile Auto</span>
+          <div
+            className="h-10 w-10 rounded-xl flex items-center justify-center"
+            style={{ background: "#2563EB" }}
+          >
+            <Car className="h-5 w-5" style={{ color: "#fff" }} />
           </div>
+          <span
+            className="font-display font-bold text-lg tracking-tight"
+            style={{ color: "#1E3A5F" }}
+          >
+            Nexgile Auto
+          </span>
         </motion.div>
 
-        <div className="relative z-10 max-w-md">
-          <motion.h2
+        {/* Headline */}
+        <div className="relative z-10 my-10 lg:my-0 max-w-lg">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-4xl font-display font-bold text-primary-foreground leading-tight mb-4"
+            transition={{ delay: 0.35, duration: 0.6 }}
+            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-display font-bold leading-tight mb-4"
+            style={{ color: "#0F172A" }}
           >
             Drive your dealership forward
-          </motion.h2>
+          </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-primary-foreground/70 text-base leading-relaxed mb-10"
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="text-base leading-relaxed mb-10"
+            style={{ color: "#475569" }}
           >
-            Manage inventory, track sales, schedule services, and grow your business — all from one powerful platform.
+            Manage inventory, track sales, schedule services, and grow your
+            business — all from one powerful platform.
           </motion.p>
 
-          <div className="space-y-3">
-            {features.map((feature, i) => (
+          {/* Feature Cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-3"
+          >
+            {features.map((f) => (
               <motion.div
-                key={feature.title}
-                custom={i + 6}
-                initial="hidden"
-                animate="visible"
-                variants={fadeUp}
-                whileHover={{ scale: 1.02, x: 4 }}
-                className="flex items-start gap-3 bg-primary-foreground/[0.08] backdrop-blur-sm rounded-xl p-4 cursor-default transition-colors hover:bg-primary-foreground/[0.12]"
+                key={f.title}
+                variants={cardVariant}
+                whileHover={{
+                  y: -4,
+                  boxShadow: "0 12px 32px rgba(37, 99, 235, 0.12)",
+                  transition: { duration: 0.25 },
+                }}
+                className="flex items-start gap-4 rounded-2xl p-4 cursor-default"
+                style={{
+                  background: "rgba(255,255,255,0.85)",
+                  backdropFilter: "blur(8px)",
+                  boxShadow: "0 4px 16px rgba(15, 23, 42, 0.06)",
+                  border: "1px solid rgba(226, 232, 240, 0.8)",
+                }}
               >
-                <div className="h-9 w-9 rounded-lg bg-primary-foreground/15 flex items-center justify-center shrink-0 mt-0.5">
-                  <feature.icon className="h-4 w-4 text-primary-foreground" />
+                <div
+                  className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: "#EFF6FF" }}
+                >
+                  <f.icon className="h-5 w-5" style={{ color: "#2563EB" }} />
                 </div>
                 <div>
-                  <p className="text-primary-foreground font-medium text-sm">{feature.title}</p>
-                  <p className="text-primary-foreground/60 text-xs mt-0.5">{feature.desc}</p>
+                  <p className="font-semibold text-sm" style={{ color: "#0F172A" }}>
+                    {f.title}
+                  </p>
+                  <p className="text-xs mt-0.5" style={{ color: "#64748B" }}>
+                    {f.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        <motion.div
+        {/* Footer */}
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="relative z-10"
+          transition={{ delay: 1.2, duration: 0.4 }}
+          className="relative z-10 text-xs hidden lg:block"
+          style={{ color: "#94A3B8" }}
         >
-          <p className="text-primary-foreground/40 text-xs">© 2026 Nexgile Automotive. All rights reserved.</p>
-        </motion.div>
+          © 2026 Nexgile Automotive. All rights reserved.
+        </motion.p>
       </motion.div>
 
-      {/* Right panel - login form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
-        {/* Soft background accents */}
+      {/* Right – Login Panel */}
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative">
+        {/* Subtle background accent */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-primary/[0.04]" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-accent/[0.06]" />
+          <div
+            className="absolute -top-32 right-0 w-80 h-80 rounded-full opacity-[0.04]"
+            style={{ background: "radial-gradient(circle, #2563EB, transparent 70%)" }}
+          />
+          <div
+            className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full opacity-[0.03]"
+            style={{ background: "radial-gradient(circle, #3B82F6, transparent 70%)" }}
+          />
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-[400px] relative z-10"
+          variants={formVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full max-w-[420px] relative z-10 rounded-2xl p-8 sm:p-10"
+          style={{
+            background: "#FFFFFF",
+            boxShadow: "0 8px 40px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04)",
+            border: "1px solid #E2E8F0",
+            borderRadius: "14px",
+          }}
         >
           {/* Mobile logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="lg:hidden text-center mb-10"
+            transition={{ delay: 0.25, duration: 0.4 }}
+            className="lg:hidden flex items-center gap-3 mb-8"
           >
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground mb-4">
-              <Car className="h-7 w-7" />
+            <div
+              className="h-10 w-10 rounded-xl flex items-center justify-center"
+              style={{ background: "#2563EB" }}
+            >
+              <Car className="h-5 w-5" style={{ color: "#fff" }} />
             </div>
-            <h1 className="text-xl font-display font-bold text-foreground">Nexgile Automotive</h1>
+            <span className="font-display font-bold text-lg" style={{ color: "#0F172A" }}>
+              Nexgile Auto
+            </span>
           </motion.div>
 
-          <motion.div
-            custom={0}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mb-8"
-          >
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-2xl font-display font-bold text-foreground">Welcome back</h1>
-              <motion.div
-                animate={{ rotate: [0, 14, -8, 14, 0] }}
-                transition={{ duration: 1.5, delay: 1, ease: "easeInOut" }}
-              >
-                <Sparkles className="h-5 w-5 text-accent" />
-              </motion.div>
-            </div>
-            <p className="text-muted-foreground text-sm mt-1.5">Sign in to your account to continue</p>
-          </motion.div>
+          <div className="mb-7">
+            <h2
+              className="text-2xl font-display font-bold"
+              style={{ color: "#0F172A" }}
+            >
+              Welcome back
+            </h2>
+            <p className="text-sm mt-1.5" style={{ color: "#64748B" }}>
+              Sign in to your account to continue
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <motion.div custom={1} initial="hidden" animate="visible" variants={fadeUp}>
-              <label className="block text-xs font-medium text-foreground mb-2">Email Address</label>
+            {/* Email */}
+            <div>
+              <label
+                className="block text-xs font-medium mb-2"
+                style={{ color: "#334155" }}
+              >
+                Email Address
+              </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex h-11 w-full rounded-lg border border-border bg-card px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200"
+                className="login-input"
                 placeholder="you@company.com"
                 required
               />
-            </motion.div>
+            </div>
 
-            <motion.div custom={2} initial="hidden" animate="visible" variants={fadeUp}>
+            {/* Password */}
+            <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-medium text-foreground">Password</label>
-                <button type="button" className="text-xs text-primary hover:underline transition-colors">Forgot password?</button>
+                <label
+                  className="block text-xs font-medium"
+                  style={{ color: "#334155" }}
+                >
+                  Password
+                </label>
+                <button
+                  type="button"
+                  className="text-xs font-medium hover:underline transition-colors"
+                  style={{ color: "#2563EB" }}
+                >
+                  Forgot password?
+                </button>
               </div>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="flex h-11 w-full rounded-lg border border-border bg-card px-4 pr-11 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200"
+                  className="login-input pr-11"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: "#94A3B8" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#475569")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#94A3B8")}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  <motion.div
+                    key={showPassword ? "hide" : "show"}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </motion.div>
                 </button>
               </div>
-            </motion.div>
+            </div>
 
+            {/* Error */}
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                initial={{ opacity: 0, y: -6, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3"
+                transition={{ duration: 0.25 }}
+                className="rounded-xl px-4 py-3"
+                style={{
+                  background: "#FEF2F2",
+                  border: "1px solid #FECACA",
+                }}
               >
-                <p className="text-xs text-destructive">{error}</p>
+                <p className="text-xs font-medium" style={{ color: "#DC2626" }}>
+                  {error}
+                </p>
               </motion.div>
             )}
 
-            <motion.div custom={3} initial="hidden" animate="visible" variants={fadeUp}>
-              <motion.button
-                type="submit"
-                disabled={isLoading}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-11 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-sm"
-              >
-                {isLoading ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                    className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full"
-                  />
-                ) : (
-                  <>
-                    Sign In
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </motion.button>
-            </motion.div>
-
-            <motion.p
-              custom={4}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="text-center text-sm text-muted-foreground pt-2"
+            {/* Submit */}
+            <motion.button
+              type="submit"
+              disabled={isLoading}
+              onMouseDown={() => setIsPressed(true)}
+              onMouseUp={() => setIsPressed(false)}
+              onMouseLeave={() => setIsPressed(false)}
+              whileHover={{ scale: 1.015, backgroundColor: "#1D4ED8" }}
+              whileTap={{ scale: 0.975 }}
+              className="w-full h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 relative overflow-hidden"
+              style={{
+                background: "#2563EB",
+                color: "#fff",
+                boxShadow: isPressed
+                  ? "0 2px 8px rgba(37, 99, 235, 0.25)"
+                  : "0 4px 14px rgba(37, 99, 235, 0.2)",
+                opacity: isLoading ? 0.7 : 1,
+              }}
             >
+              {isLoading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.7, repeat: Infinity, ease: "linear" }}
+                  className="h-4 w-4 border-2 rounded-full"
+                  style={{
+                    borderColor: "rgba(255,255,255,0.3)",
+                    borderTopColor: "#fff",
+                  }}
+                />
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
+            </motion.button>
+
+            {/* Register link */}
+            <p className="text-center text-sm pt-1" style={{ color: "#64748B" }}>
               Don't have an account?{" "}
-              <Link to="/register" className="text-primary font-medium hover:underline transition-colors">
+              <Link
+                to="/register"
+                className="font-semibold hover:underline transition-colors"
+                style={{ color: "#2563EB" }}
+              >
                 Register
               </Link>
-            </motion.p>
+            </p>
           </form>
         </motion.div>
       </div>
