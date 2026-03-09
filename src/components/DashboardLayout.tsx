@@ -120,7 +120,7 @@ export default function DashboardLayout() {
                           <button onClick={() => setShowNotifications(false)} className="p-1 rounded-lg hover:bg-secondary"><X className="h-3.5 w-3.5 text-muted-foreground" /></button>
                         </div>
                       </div>
-                      <div className="max-h-72 overflow-y-auto">
+                      <div className="max-h-72 overflow-y-auto scrollbar-hide">
                         {notifications.map((n) => (
                           <motion.div
                             key={n.id}

@@ -152,7 +152,7 @@ export function AppSidebar() {
         </AnimatePresence>
       </div>
 
-      <SidebarContent className="pt-4 px-2.5 flex flex-col">
+      <SidebarContent className="pt-4 px-2.5 flex flex-col overflow-y-auto scrollbar-hide">
         <MenuSection label="Main" items={mainMenu} collapsed={collapsed} pathname={location.pathname} />
 
         {!collapsed && <div className="h-px bg-sidebar-border mx-3 my-2" />}
