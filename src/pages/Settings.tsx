@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { toast } from "sonner";
+import { Sun, Moon } from "lucide-react";
 
 export default function SettingsPage() {
   const { user } = useAuth();
