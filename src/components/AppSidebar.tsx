@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   LayoutDashboard, Car, ClipboardCheck, Users, Handshake, Wrench,
   Package, UserCircle, BarChart3, Settings, LogOut, Sparkles, Crown
@@ -6,6 +7,7 @@ import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import PricingModal from "@/components/PricingModal";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
@@ -116,6 +118,7 @@ export function AppSidebar() {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showPricing, setShowPricing] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -123,6 +126,7 @@ export function AppSidebar() {
   };
 
   return (
+    <>
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar-background">
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 px-4 border-b border-sidebar-border">
@@ -182,6 +186,7 @@ export function AppSidebar() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => setShowPricing(true)}
                     className="w-full h-8 rounded-lg bg-white/20 backdrop-blur-sm text-primary-foreground text-[11px] font-semibold hover:bg-white/30 transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Sparkles className="h-3 w-3" /> Get Started
@@ -225,5 +230,7 @@ export function AppSidebar() {
         </div>
       </SidebarContent>
     </Sidebar>
+    <PricingModal open={showPricing} onClose={() => setShowPricing(false)} />
+    </>
   );
 }
