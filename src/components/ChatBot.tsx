@@ -65,9 +65,9 @@ export default function ChatBot() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
+            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow overflow-hidden p-0 border-2 border-primary"
           >
-            <MessageCircle className="h-6 w-6" />
+            <img src={chatbotAvatar} alt="Chat" className="h-full w-full object-cover" />
           </motion.button>
         )}
       </AnimatePresence>
