@@ -7,54 +7,54 @@
 @layer base {
   :root {
     --background: 0 0% 98%;
-    --foreground: 222 47% 11%;
+    --foreground: 192 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 192 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 192 30% 10%;
 
-    --primary: 207 90% 54%;
+    --primary: 174 72% 42%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 93%;
-    --secondary-foreground: 222 30% 20%;
+    --secondary: 180 14% 93%;
+    --secondary-foreground: 192 20% 20%;
 
-    --muted: 210 20% 93%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 180 14% 93%;
+    --muted-foreground: 190 12% 47%;
 
     --accent: 38 92% 55%;
-    --accent-foreground: 222 47% 11%;
+    --accent-foreground: 192 30% 10%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 207 90% 54%;
+    --border: 185 16% 88%;
+    --input: 185 16% 88%;
+    --ring: 174 72% 42%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 99%;
-    --sidebar-foreground: 222 20% 40%;
-    --sidebar-primary: 207 90% 54%;
+    --sidebar-background: 180 10% 99%;
+    --sidebar-foreground: 192 20% 40%;
+    --sidebar-primary: 174 72% 42%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 95%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 214 20% 90%;
-    --sidebar-ring: 207 90% 54%;
+    --sidebar-accent: 180 14% 95%;
+    --sidebar-accent-foreground: 192 30% 10%;
+    --sidebar-border: 185 16% 90%;
+    --sidebar-ring: 174 72% 42%;
 
     --success: 152 69% 45%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 55%;
-    --warning-foreground: 222 47% 11%;
+    --warning-foreground: 192 30% 10%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(207 90% 44%));
+    --gradient-primary: linear-gradient(135deg, hsl(174 72% 42%), hsl(186 72% 36%));
     --gradient-accent: linear-gradient(135deg, hsl(38 92% 55%), hsl(28 92% 50%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 20% 98%));
-    --shadow-glow: 0 0 20px hsl(207 90% 54% / 0.1);
-    --shadow-card: 0 4px 24px hsl(222 47% 50% / 0.08);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(180 14% 98%));
+    --shadow-glow: 0 0 20px hsl(174 72% 42% / 0.1);
+    --shadow-card: 0 4px 24px hsl(192 30% 50% / 0.08);
 
     --font-display: 'Space Grotesk', system-ui, sans-serif;
     --font-body: 'DM Sans', system-ui, sans-serif;
