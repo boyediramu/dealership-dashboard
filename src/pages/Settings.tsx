@@ -186,7 +186,7 @@ export default function SettingsPage() {
                         <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5">
                           <Globe className="h-3 w-3 text-muted-foreground" /> Timezone
                         </label>
-                        <select className="w-full h-11 rounded-xl border border-border bg-secondary/50 px-4 text-sm text-foreground outline-none focus:border-primary/50 transition-all">
+                        <select className="w-full h-11 rounded-xl border border-border bg-secondary/50 px-4 text-sm text-foreground outline-none focus:border-primary/50 transition-all" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
                           <option>UTC-05:00 (Eastern)</option>
                           <option>UTC-06:00 (Central)</option>
                           <option>UTC-07:00 (Mountain)</option>
