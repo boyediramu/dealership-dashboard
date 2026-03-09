@@ -119,7 +119,7 @@ export default function Dashboard() {
                   <Cell key={i} fill={entry.fill} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={chartTooltipStyle} />
+              <Tooltip content={<PieTooltipContent />} />
             </PieChart>
           </ResponsiveContainer>
           <div className="space-y-2 mt-3">
