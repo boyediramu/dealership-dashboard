@@ -160,7 +160,6 @@ export default function DashboardLayout() {
             </div>
             <Outlet />
           </main>
-          </main>
         </div>
       </div>
     </SidebarProvider>
