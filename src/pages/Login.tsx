@@ -160,8 +160,13 @@ export default function Login() {
         </motion.p>
       </div>
 
+      {/* Vertical divider */}
+      <div className="hidden lg:flex items-center">
+        <div className="w-px h-[70%] bg-gradient-to-b from-transparent via-border to-transparent" />
+      </div>
+
       {/* ═══ RIGHT — Login Card ═══ */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-10 lg:p-12">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-10 lg:pl-10 lg:pr-16">
         <motion.div
           initial={{ opacity: 0, x: 30, scale: 0.97 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
