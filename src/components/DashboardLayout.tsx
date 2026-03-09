@@ -7,6 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 
 export default function DashboardLayout() {
   const { isAuthenticated, user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
