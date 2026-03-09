@@ -138,7 +138,7 @@ export default function DashboardLayout() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setShowSearch(true); }}
-                    onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
+                    onFocus={() => searchQuery.length >= 1 && setShowSearch(true)}
                   />
                   {searchQuery && (
                     <button onClick={() => { setSearchQuery(""); setShowSearch(false); }} className="text-muted-foreground hover:text-foreground">
