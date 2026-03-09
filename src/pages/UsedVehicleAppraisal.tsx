@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Appraisal } from "@/data/mockData";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+import { ClipboardCheck, Car } from "lucide-react";
+
+const container = { hidden: {}, visible: { transition: { staggerChildren: 0.05 } } };
+const item = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35 } } };
 
 export default function UsedVehicleAppraisal() {
   const [appraisals, setAppraisals] = useState<Appraisal[]>([]);
@@ -13,13 +18,28 @@ export default function UsedVehicleAppraisal() {
     toast.success("Appraisal submitted");
   };
 
-  return (
-    <div className="space-y-4 animate-fade-in">
-      <h1 className="page-title">Used Vehicle Appraisal</h1>
+  const conditionBadge = (c: string) => {
+    const m: Record<string, string> = { Excellent: "bg-success/15 text-success", Good: "bg-primary/15 text-primary", Fair: "bg-warning/15 text-warning", Poor: "bg-destructive/15 text-destructive" };
+    return m[c] || "";
+  };
 
-      <div className="kpi-card">
-        <h3 className="text-sm font-semibold mb-4">New Appraisal</h3>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  return (
+    <motion.div variants={container} initial="hidden" animate="visible" className="space-y-5">
+      <motion.div variants={item}>
+        <h1 className="text-2xl font-display font-bold text-foreground">Used Vehicle Appraisal</h1>
+        <p className="text-sm text-muted-foreground mt-0.5">Submit and track vehicle appraisals</p>
+      </motion.div>
+
+      {/* Appraisal Form */}
+      <motion.div variants={item} className="rounded-2xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+        <div className="flex items-center gap-3 mb-5">
+          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center"><ClipboardCheck className="h-5 w-5 text-primary" /></div>
+          <div>
+            <h3 className="text-sm font-display font-semibold text-foreground">New Appraisal</h3>
+            <p className="text-xs text-muted-foreground">Fill in vehicle details for appraisal</p>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             { label: "Customer Name", key: "customerName", type: "text" },
             { label: "Vehicle Brand", key: "brand", type: "text" },
@@ -28,41 +48,49 @@ export default function UsedVehicleAppraisal() {
             { label: "Estimated Price ($)", key: "estimatedPrice", type: "number" },
           ].map((f) => (
             <div key={f.key}>
-              <label className="block text-xs text-muted-foreground mb-1">{f.label}</label>
-              <input className="search-input w-full" type={f.type} value={(form as any)[f.key]} onChange={(e) => setForm({ ...form, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })} required />
+              <label className="block text-xs font-semibold text-foreground mb-1.5">{f.label}</label>
+              <input className="w-full h-10 rounded-xl border border-border bg-secondary/50 px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all" type={f.type} value={(form as any)[f.key]} onChange={(e) => setForm({ ...form, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })} required />
             </div>
           ))}
           <div>
-            <label className="block text-xs text-muted-foreground mb-1">Condition</label>
-            <select className="search-input w-full" value={form.condition} onChange={(e) => setForm({ ...form, condition: e.target.value })}>
+            <label className="block text-xs font-semibold text-foreground mb-1.5">Condition</label>
+            <select className="w-full h-10 rounded-xl border border-border bg-secondary/50 px-3 text-sm text-foreground outline-none focus:border-primary/50 transition-all" value={form.condition} onChange={(e) => setForm({ ...form, condition: e.target.value })}>
               <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
             </select>
           </div>
           <div className="sm:col-span-2 lg:col-span-3">
-            <button type="submit" className="h-9 px-6 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Submit Appraisal</button>
+            <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} type="submit" className="h-10 px-6 rounded-xl bg-primary text-primary-foreground text-sm font-semibold shadow-md" style={{ boxShadow: "0 4px 12px hsl(var(--primary) / 0.3)" }}>Submit Appraisal</motion.button>
           </div>
         </form>
-      </div>
+      </motion.div>
 
+      {/* Appraisal History */}
       {appraisals.length > 0 && (
-        <div className="kpi-card">
-          <h3 className="text-sm font-semibold mb-4">Appraisal History</h3>
-          <div className="overflow-x-auto">
-            <table className="data-table">
-              <thead><tr><th>Customer</th><th>Brand</th><th>Model</th><th>Year</th><th>Condition</th><th>Est. Price</th></tr></thead>
-              <tbody>
-                {appraisals.map((a) => (
-                  <tr key={a.id}>
-                    <td>{a.customerName}</td><td>{a.brand}</td><td>{a.model}</td><td>{a.year}</td>
-                    <td><span className="status-badge status-in-stock">{a.condition}</span></td>
-                    <td>${a.estimatedPrice.toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <motion.div variants={item} className="rounded-2xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+          <h3 className="text-sm font-display font-semibold text-foreground mb-1">Appraisal History</h3>
+          <p className="text-xs text-muted-foreground mb-4">{appraisals.length} appraisals submitted</p>
+          <div className="space-y-3">
+            {appraisals.map((a, i) => (
+              <motion.div
+                key={a.id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                whileHover={{ x: 3 }}
+                className="flex items-center gap-4 p-4 rounded-xl border border-border hover:border-primary/20 hover:shadow-sm transition-all"
+              >
+                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"><Car className="h-5 w-5 text-primary" /></div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-foreground">{a.brand} {a.model} ({a.year})</p>
+                  <p className="text-xs text-muted-foreground">Customer: {a.customerName}</p>
+                </div>
+                <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${conditionBadge(a.condition)}`}>{a.condition}</span>
+                <span className="text-sm font-bold text-foreground">${a.estimatedPrice.toLocaleString()}</span>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
