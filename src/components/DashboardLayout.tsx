@@ -49,11 +49,6 @@ export default function DashboardLayout() {
           <header className="sticky top-0 z-30 h-16 flex items-center justify-between border-b border-border px-4 md:px-6 bg-card/80 backdrop-blur-xl">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-              <div className="hidden sm:block h-6 w-px bg-border" />
-              <div className="hidden sm:block">
-                <h2 className="text-sm font-display font-semibold text-foreground">{currentTitle}</h2>
-                <p className="text-[10px] text-muted-foreground">Welcome back, {user?.name ?? "Admin"}</p>
-              </div>
             </div>
 
             <div className="flex items-center gap-2">
