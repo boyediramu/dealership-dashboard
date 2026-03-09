@@ -140,7 +140,7 @@ export default function DashboardLayout() {
                       <div className="px-4 py-2.5 border-b border-border bg-secondary/30">
                         <p className="text-xs text-muted-foreground font-medium">
                           {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for "<span className="text-foreground font-semibold">{searchQuery}</span>"
-                          <span className="ml-1 text-[10px] text-muted-foreground/60">(case-sensitive)</span>
+                          <span className="ml-1 text-[10px] text-muted-foreground/60"></span>
                         </p>
                       </div>
                       <div className="max-h-80 overflow-y-auto scrollbar-hide">
