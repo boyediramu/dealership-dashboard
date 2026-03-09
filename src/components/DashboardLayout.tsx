@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Bell, Sun, Moon, X, Search } from "lucide-react";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Bell, Sun, Moon, X, Search, Car, Users, Handshake, Wrench, Package, UserCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { mockVehicles, mockLeads, mockDeals, mockAppointments, mockParts, mockCustomers } from "@/data/mockData";
 
 const mockNotifications = [
   { id: 1, title: "New lead assigned", message: "John Smith is interested in 2024 BMW X5", time: "5 min ago", read: false },
