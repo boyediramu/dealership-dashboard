@@ -7,6 +7,7 @@ export interface Vehicle {
   stockStatus: "In Stock" | "Low Stock" | "Sold";
   vin: string;
   color: string;
+  image?: string;
 }
 
 export interface Appraisal {
@@ -67,15 +68,24 @@ export interface Customer {
   vehiclesOwned: string[];
 }
 
+import toyotaCamryImg from "@/assets/vehicles/toyota-camry.jpg";
+import hondaAccordImg from "@/assets/vehicles/honda-accord.jpg";
+import fordF150Img from "@/assets/vehicles/ford-f150.jpg";
+import bmw3SeriesImg from "@/assets/vehicles/bmw-3series.jpg";
+import teslaModel3Img from "@/assets/vehicles/tesla-model3.jpg";
+import chevySilveradoImg from "@/assets/vehicles/chevy-silverado.jpg";
+import audiQ5Img from "@/assets/vehicles/audi-q5.jpg";
+import mercedesCClassImg from "@/assets/vehicles/mercedes-cclass.jpg";
+
 export const mockVehicles: Vehicle[] = [
-  { id: "v1", name: "Toyota Camry", model: "XSE", year: 2024, price: 32500, stockStatus: "In Stock", vin: "1HGBH41JXMN109186", color: "Midnight Black" },
-  { id: "v2", name: "Honda Accord", model: "Sport", year: 2024, price: 31200, stockStatus: "In Stock", vin: "2HGFC2F59MH512345", color: "Platinum White" },
-  { id: "v3", name: "Ford F-150", model: "Lariat", year: 2024, price: 52800, stockStatus: "Low Stock", vin: "1FTFW1E50MF123456", color: "Atlas Blue" },
-  { id: "v4", name: "BMW 3 Series", model: "330i", year: 2024, price: 45900, stockStatus: "In Stock", vin: "WBA5R1C50MA123456", color: "Alpine White" },
-  { id: "v5", name: "Tesla Model 3", model: "Long Range", year: 2024, price: 47500, stockStatus: "Sold", vin: "5YJ3E1EA1MF123456", color: "Deep Blue" },
-  { id: "v6", name: "Chevrolet Silverado", model: "LTZ", year: 2024, price: 55200, stockStatus: "In Stock", vin: "3GCUYDED0MG123456", color: "Shadow Gray" },
-  { id: "v7", name: "Audi Q5", model: "Premium Plus", year: 2024, price: 49800, stockStatus: "Low Stock", vin: "WA1BNAFY5M2123456", color: "Navarra Blue" },
-  { id: "v8", name: "Mercedes-Benz C-Class", model: "C300", year: 2024, price: 47200, stockStatus: "In Stock", vin: "W1KWF8DB5MR123456", color: "Obsidian Black" },
+  { id: "v1", name: "Toyota Camry", model: "XSE", year: 2024, price: 32500, stockStatus: "In Stock", vin: "1HGBH41JXMN109186", color: "Midnight Black", image: toyotaCamryImg },
+  { id: "v2", name: "Honda Accord", model: "Sport", year: 2024, price: 31200, stockStatus: "In Stock", vin: "2HGFC2F59MH512345", color: "Platinum White", image: hondaAccordImg },
+  { id: "v3", name: "Ford F-150", model: "Lariat", year: 2024, price: 52800, stockStatus: "Low Stock", vin: "1FTFW1E50MF123456", color: "Atlas Blue", image: fordF150Img },
+  { id: "v4", name: "BMW 3 Series", model: "330i", year: 2024, price: 45900, stockStatus: "In Stock", vin: "WBA5R1C50MA123456", color: "Alpine White", image: bmw3SeriesImg },
+  { id: "v5", name: "Tesla Model 3", model: "Long Range", year: 2024, price: 47500, stockStatus: "Sold", vin: "5YJ3E1EA1MF123456", color: "Deep Blue", image: teslaModel3Img },
+  { id: "v6", name: "Chevrolet Silverado", model: "LTZ", year: 2024, price: 55200, stockStatus: "In Stock", vin: "3GCUYDED0MG123456", color: "Shadow Gray", image: chevySilveradoImg },
+  { id: "v7", name: "Audi Q5", model: "Premium Plus", year: 2024, price: 49800, stockStatus: "Low Stock", vin: "WA1BNAFY5M2123456", color: "Navarra Blue", image: audiQ5Img },
+  { id: "v8", name: "Mercedes-Benz C-Class", model: "C300", year: 2024, price: 47200, stockStatus: "In Stock", vin: "W1KWF8DB5MR123456", color: "Obsidian Black", image: mercedesCClassImg },
 ];
 
 export const mockLeads: Lead[] = [
