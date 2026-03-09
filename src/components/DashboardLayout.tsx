@@ -32,12 +32,68 @@ export default function DashboardLayout() {
   const { isAuthenticated, user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState(mockNotifications);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
   const markAllRead = () => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   const currentTitle = pageTitles[location.pathname] || "Dashboard";
+
+  // Close search on click outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setShowSearch(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close search on route change
+  useEffect(() => { setShowSearch(false); setSearchQuery(""); }, [location.pathname]);
+
+  // Case-sensitive global search
+  const searchResults = useMemo(() => {
+    if (!searchQuery || searchQuery.length < 2) return [];
+    const q = searchQuery; // case-sensitive
+    const results: { category: string; icon: any; label: string; sub: string; route: string }[] = [];
+
+    mockVehicles.forEach((v) => {
+      if ([v.name, v.model, v.vin, v.color, v.stockStatus].some((s) => s.includes(q))) {
+        results.push({ category: "Vehicles", icon: Car, label: `${v.name} ${v.model}`, sub: `${v.year} · ${v.color} · ${v.stockStatus}`, route: "/vehicles" });
+      }
+    });
+    mockLeads.forEach((l) => {
+      if ([l.name, l.contact, l.vehicleInterested, l.source, l.status].some((s) => s.includes(q))) {
+        results.push({ category: "Leads", icon: Users, label: l.name, sub: `${l.vehicleInterested} · ${l.status}`, route: "/leads" });
+      }
+    });
+    mockDeals.forEach((d) => {
+      if ([d.customerName, d.vehicle, d.type].some((s) => s.includes(q))) {
+        results.push({ category: "Deals", icon: Handshake, label: d.customerName, sub: `${d.vehicle} · ${d.type}`, route: "/deals" });
+      }
+    });
+    mockAppointments.forEach((a) => {
+      if ([a.customerName, a.vehicle, a.serviceType, a.technician, a.status].some((s) => s.includes(q))) {
+        results.push({ category: "Service", icon: Wrench, label: a.customerName, sub: `${a.serviceType} · ${a.status}`, route: "/service" });
+      }
+    });
+    mockParts.forEach((p) => {
+      if ([p.name, p.partNumber, p.supplier].some((s) => s.includes(q))) {
+        results.push({ category: "Parts", icon: Package, label: p.name, sub: `${p.partNumber} · ${p.supplier}`, route: "/parts" });
+      }
+    });
+    mockCustomers.forEach((c) => {
+      if ([c.name, c.phone, c.email, ...c.vehiclesOwned].some((s) => s.includes(q))) {
+        results.push({ category: "Customers", icon: UserCircle, label: c.name, sub: `${c.email}`, route: "/customers" });
+      }
+    });
+
+    return results.slice(0, 12);
+  }, [searchQuery]);
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
