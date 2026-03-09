@@ -22,8 +22,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const login = useCallback((email: string, password: string) => {
+    // Check hardcoded admin
     if (email === "admin@nexgile.com" && password === "admin123") {
       const u = { email, name: "Admin User" };
+      setUser(u);
+      localStorage.setItem("nexgile_user", JSON.stringify(u));
+      return true;
+    }
+    // Check registered users
+    const users = JSON.parse(localStorage.getItem("nexgile_registered_users") || "[]");
+    const found = users.find((u: any) => u.email === email && u.password === password);
+    if (found) {
+      const u = { email: found.email, name: found.name };
       setUser(u);
       localStorage.setItem("nexgile_user", JSON.stringify(u));
       return true;
