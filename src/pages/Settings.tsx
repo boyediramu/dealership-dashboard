@@ -6,6 +6,7 @@ import { Sun, Moon } from "lucide-react";
 
 export default function SettingsPage() {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [name, setName] = useState(user?.name || "");
   const [email] = useState(user?.email || "");
   const [notifications, setNotifications] = useState({ email: true, push: true, sms: false });
