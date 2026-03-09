@@ -185,4 +185,28 @@
   .search-input {
     @apply flex h-9 rounded-lg border border-border bg-secondary px-3 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary;
   }
+
+  .login-input {
+    display: flex;
+    height: 2.75rem;
+    width: 100%;
+    border-radius: 0.625rem;
+    border: 1px solid #E2E8F0;
+    background: #F8FAFC;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    color: #0F172A;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .login-input::placeholder {
+    color: #94A3B8;
+  }
+
+  .login-input:focus {
+    border-color: #93C5FD;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
 }
