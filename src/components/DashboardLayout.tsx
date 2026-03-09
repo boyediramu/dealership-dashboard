@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Bell, Sun, Moon, X, Search, Car, Users, Handshake, Wrench, Package, UserCircle } from "lucide-react";
+import { Bell, Sun, Moon, X, Search, Car, Users, Handshake, Wrench, Package, UserCircle, LayoutDashboard, ClipboardCheck, BarChart3, Settings } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { mockVehicles, mockLeads, mockDeals, mockAppointments, mockParts, mockCustomers } from "@/data/mockData";
