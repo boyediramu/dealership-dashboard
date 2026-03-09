@@ -85,9 +85,7 @@ export default function ChatBot() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-primary/5">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-                  <Bot className="h-4 w-4 text-primary" />
-                </div>
+                <img src={chatbotAvatar} alt="Assistant" className="h-8 w-8 rounded-full object-cover" />
                 <div>
                   <p className="text-sm font-semibold text-foreground">AutoDesk Assistant</p>
                   <p className="text-[10px] text-muted-foreground">Demo · Always online</p>
