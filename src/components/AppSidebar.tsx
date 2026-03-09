@@ -229,5 +229,7 @@ export function AppSidebar() {
         </div>
       </SidebarContent>
     </Sidebar>
+    <PricingModal open={showPricing} onClose={() => setShowPricing(false)} />
+    </>
   );
 }
