@@ -17,6 +17,7 @@ import PartsInventory from "@/pages/PartsInventory";
 import Customers from "@/pages/Customers";
 import Reports from "@/pages/Reports";
 import SettingsPage from "@/pages/Settings";
+import Register from "@/pages/Register";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
