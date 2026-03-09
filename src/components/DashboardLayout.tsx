@@ -52,8 +52,8 @@ export default function DashboardLayout() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close search on route change
-  useEffect(() => { setShowSearch(false); setSearchQuery(""); }, [location.pathname]);
+  // Close search on route change but keep query
+  useEffect(() => { setShowSearch(false); }, [location.pathname]);
 
   // Case-sensitive global search
   const searchResults = useMemo(() => {
