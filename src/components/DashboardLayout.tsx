@@ -115,7 +115,7 @@ export default function DashboardLayout() {
                   <Search className="h-3.5 w-3.5 shrink-0" />
                   <input
                     className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm"
-                    placeholder="Search (case-sensitive)..."
+                    placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setShowSearch(true); }}
                     onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
