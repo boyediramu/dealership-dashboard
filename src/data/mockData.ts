@@ -28,6 +28,7 @@ export interface Lead {
   source: "Web" | "Phone" | "Third Party";
   status: "New" | "Contacted" | "Qualified" | "Lost";
   assignedTo?: string;
+  image?: string;
 }
 
 export interface Deal {
