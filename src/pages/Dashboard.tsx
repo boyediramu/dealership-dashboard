@@ -1,4 +1,5 @@
 import { Car, DollarSign, Wrench, TrendingUp, ArrowUpRight, ArrowDownRight, Clock, Activity } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { mockVehicles, mockAppointments, monthlyRevenue, inventoryByCategory } from "@/data/mockData";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { motion } from "framer-motion";
