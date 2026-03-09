@@ -194,8 +194,14 @@ export default function VehicleInventory() {
       <ModalForm title="Vehicle Details" open={!!viewVehicle} onClose={() => setViewVehicle(null)}>
         {viewVehicle && (
           <div className="space-y-4">
-            <div className="rounded-xl overflow-hidden h-36 flex items-center justify-center" style={{ background: "var(--gradient-primary)" }}>
-              <Car className="h-20 w-20 text-primary-foreground/20" />
+            <div className="rounded-xl overflow-hidden h-48">
+              {viewVehicle.image ? (
+                <img src={viewVehicle.image} alt={`${viewVehicle.name} ${viewVehicle.model}`} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center" style={{ background: "var(--gradient-primary)" }}>
+                  <Car className="h-20 w-20 text-primary-foreground/20" />
+                </div>
+              )}
             </div>
             <div className="flex items-center justify-between">
               <div>
