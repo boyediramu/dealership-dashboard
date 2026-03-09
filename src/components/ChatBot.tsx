@@ -65,9 +65,10 @@ export default function ChatBot() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-primary shadow-[0_4px_24px_hsl(var(--primary)/0.4)] flex items-center justify-center hover:shadow-[0_6px_30px_hsl(var(--primary)/0.5)] transition-all overflow-hidden p-1.5"
+            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-primary shadow-[0_0_30px_hsl(var(--primary)/0.5),0_0_60px_hsl(var(--primary)/0.3),0_0_100px_hsl(var(--primary)/0.15)] flex items-center justify-center hover:shadow-[0_0_40px_hsl(var(--primary)/0.6),0_0_80px_hsl(var(--primary)/0.4),0_0_120px_hsl(var(--primary)/0.2)] transition-all overflow-hidden p-1.5 animate-pulse"
           >
-            <img src={chatbotAvatar} alt="Chat" className="h-full w-full rounded-full object-cover bg-card" />
+            <span className="absolute inset-0 rounded-full animate-ping bg-primary/30" />
+            <img src={chatbotAvatar} alt="Chat" className="h-full w-full rounded-full object-cover bg-card relative z-10" />
           </motion.button>
         )}
       </AnimatePresence>
