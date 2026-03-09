@@ -52,8 +52,8 @@ export default function DashboardLayout() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close search on route change
-  useEffect(() => { setShowSearch(false); setSearchQuery(""); }, [location.pathname]);
+  // Close search on route change but keep query
+  useEffect(() => { setShowSearch(false); }, [location.pathname]);
 
   // Case-sensitive global search
   const searchResults = useMemo(() => {
@@ -115,7 +115,7 @@ export default function DashboardLayout() {
                   <Search className="h-3.5 w-3.5 shrink-0" />
                   <input
                     className="bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground text-sm"
-                    placeholder="Search (case-sensitive)..."
+                    placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setShowSearch(true); }}
                     onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
@@ -140,7 +140,7 @@ export default function DashboardLayout() {
                       <div className="px-4 py-2.5 border-b border-border bg-secondary/30">
                         <p className="text-xs text-muted-foreground font-medium">
                           {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for "<span className="text-foreground font-semibold">{searchQuery}</span>"
-                          <span className="ml-1 text-[10px] text-muted-foreground/60">(case-sensitive)</span>
+                          <span className="ml-1 text-[10px] text-muted-foreground/60"></span>
                         </p>
                       </div>
                       <div className="max-h-80 overflow-y-auto scrollbar-hide">
@@ -148,7 +148,7 @@ export default function DashboardLayout() {
                           <div className="px-4 py-8 text-center">
                             <Search className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
                             <p className="text-sm text-muted-foreground">No results found</p>
-                            <p className="text-xs text-muted-foreground/60 mt-0.5">Search is case-sensitive. Try adjusting capitalization.</p>
+                            <p className="text-xs text-muted-foreground/60 mt-0.5">Try a different search term.</p>
                           </div>
                         ) : (
                           searchResults.map((r, i) => (
