@@ -7,6 +7,7 @@ export interface Vehicle {
   stockStatus: "In Stock" | "Low Stock" | "Sold";
   vin: string;
   color: string;
+  image?: string;
 }
 
 export interface Appraisal {
