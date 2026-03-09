@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import chatbotAvatar from "@/assets/chatbot-avatar.png";
 
 type Message = { role: "user" | "bot"; content: string };
 
@@ -84,9 +85,7 @@ export default function ChatBot() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-primary/5">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-                  <Bot className="h-4 w-4 text-primary" />
-                </div>
+                <img src={chatbotAvatar} alt="Assistant" className="h-8 w-8 rounded-full object-cover" />
                 <div>
                   <p className="text-sm font-semibold text-foreground">AutoDesk Assistant</p>
                   <p className="text-[10px] text-muted-foreground">Demo · Always online</p>
@@ -111,9 +110,7 @@ export default function ChatBot() {
                   className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.role === "bot" && (
-                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
-                      <Bot className="h-3 w-3 text-primary" />
-                    </div>
+                    <img src={chatbotAvatar} alt="Bot" className="h-6 w-6 rounded-full object-cover shrink-0 mt-1" />
                   )}
                   <div
                     className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
@@ -138,9 +135,7 @@ export default function ChatBot() {
                   animate={{ opacity: 1 }}
                   className="flex gap-2 items-center"
                 >
-                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Bot className="h-3 w-3 text-primary" />
-                  </div>
+                  <img src={chatbotAvatar} alt="Bot" className="h-6 w-6 rounded-full object-cover shrink-0" />
                   <div className="bg-secondary px-4 py-2.5 rounded-2xl rounded-bl-md flex gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:0ms]" />
                     <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:150ms]" />
