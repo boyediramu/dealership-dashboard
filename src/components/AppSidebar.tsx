@@ -185,6 +185,7 @@ export function AppSidebar() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => setShowPricing(true)}
                     className="w-full h-8 rounded-lg bg-white/20 backdrop-blur-sm text-primary-foreground text-[11px] font-semibold hover:bg-white/30 transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Sparkles className="h-3 w-3" /> Get Started
