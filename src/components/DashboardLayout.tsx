@@ -7,6 +7,7 @@ import { Bell, Sun, Moon, X, Search, Car, Users, Handshake, Wrench, Package, Use
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { mockVehicles, mockLeads, mockDeals, mockAppointments, mockParts, mockCustomers } from "@/data/mockData";
+import ChatBot from "@/components/ChatBot";
 
 const mockNotifications = [
   { id: 1, title: "New lead assigned", message: "John Smith is interested in 2024 BMW X5", time: "5 min ago", read: false },
