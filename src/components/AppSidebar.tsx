@@ -126,6 +126,7 @@ export function AppSidebar() {
   };
 
   return (
+    <>
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar-background">
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 px-4 border-b border-sidebar-border">
