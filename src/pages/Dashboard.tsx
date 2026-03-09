@@ -23,13 +23,26 @@ const item = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] } },
 };
 
-const chartTooltipStyle = {
+const chartTooltipStyle: React.CSSProperties = {
   background: "hsl(var(--card))",
   border: "1px solid hsl(var(--border))",
   borderRadius: 12,
   color: "hsl(var(--foreground))",
   boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
   fontSize: 12,
+  padding: "8px 12px",
+};
+
+const PieTooltipContent = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null;
+  const { name, value, fill } = payload[0].payload;
+  return (
+    <div style={{ ...chartTooltipStyle, display: "flex", alignItems: "center", gap: 8 }}>
+      <span style={{ width: 10, height: 10, borderRadius: "50%", background: fill, display: "inline-block" }} />
+      <span style={{ color: "hsl(var(--foreground))", fontWeight: 600 }}>{name}</span>
+      <span style={{ color: "hsl(var(--muted-foreground))" }}>{value}</span>
+    </div>
+  );
 };
 
 export default function Dashboard() {
@@ -106,7 +119,7 @@ export default function Dashboard() {
                   <Cell key={i} fill={entry.fill} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={chartTooltipStyle} />
+              <Tooltip content={<PieTooltipContent />} />
             </PieChart>
           </ResponsiveContainer>
           <div className="space-y-2 mt-3">
