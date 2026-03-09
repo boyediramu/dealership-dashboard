@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Car, Eye, EyeOff, ArrowRight, Shield, BarChart3, Users } from "lucide-react";
 
@@ -167,6 +167,13 @@ export default function Login() {
                 <span className="bg-background px-3 text-xs text-muted-foreground">Demo Credentials</span>
               </div>
             </div>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-primary font-medium hover:underline">
+                Register
+              </Link>
+            </p>
 
             <div className="rounded-lg border border-border bg-card/50 px-4 py-3 space-y-1">
               <div className="flex items-center justify-between">

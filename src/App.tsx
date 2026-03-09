@@ -17,6 +17,7 @@ import PartsInventory from "@/pages/PartsInventory";
 import Customers from "@/pages/Customers";
 import Reports from "@/pages/Reports";
 import SettingsPage from "@/pages/Settings";
+import Register from "@/pages/Register";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
