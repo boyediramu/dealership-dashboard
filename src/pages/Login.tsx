@@ -47,25 +47,15 @@ export default function Login() {
     setIsLoading(false);
   };
 
-  const inputStyle = (field: string) => ({
-    background: focused === field ? "#FFFFFF" : "#F8FAFC",
-    border: focused === field ? "1.5px solid #93C5FD" : "1.5px solid #E2E8F0",
-    color: "#0F172A",
-    boxShadow: focused === field ? "0 0 0 3px rgba(37,99,235,0.06)" : "none",
-  });
-
   return (
-    <div
-      className="min-h-screen flex"
-      style={{ background: "linear-gradient(160deg, #F0F4FF 0%, #F8FAFC 40%, #FEFCE8 100%)" }}
-    >
+    <div className="min-h-screen flex bg-background">
       {/* ═══ LEFT — Content ═══ */}
       <div className="hidden lg:flex lg:w-[52%] flex-col justify-between p-12 xl:p-16 relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.05), transparent 70%)" }} />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full" style={{ background: "radial-gradient(circle, rgba(251,191,36,0.04), transparent 70%)" }} />
-          <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(#2563EB 1px, transparent 1px), linear-gradient(90deg, #2563EB 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
+          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-primary/5" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/5" />
+          <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
         </div>
 
         {/* Logo */}
@@ -75,12 +65,12 @@ export default function Login() {
           transition={{ duration: 0.5, ease }}
           className="flex items-center gap-3 relative z-10"
         >
-          <div className="h-11 w-11 rounded-xl flex items-center justify-center shadow-lg" style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 14px rgba(37,99,235,0.3)" }}>
-            <Car className="h-5 w-5 text-white" />
+          <div className="h-11 w-11 rounded-xl flex items-center justify-center shadow-lg bg-primary text-primary-foreground" style={{ boxShadow: "0 4px 14px hsl(var(--primary) / 0.3)" }}>
+            <Car className="h-5 w-5" />
           </div>
           <div>
-            <span className="font-display font-bold text-lg tracking-tight block leading-tight" style={{ color: "#0F172A" }}>Nexgile Auto</span>
-            <span className="text-[10px] font-medium tracking-widest uppercase" style={{ color: "#94A3B8" }}>Dealer Platform</span>
+            <span className="font-display font-bold text-lg tracking-tight block leading-tight text-foreground">Nexgile Auto</span>
+            <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground">Dealer Platform</span>
           </div>
         </motion.div>
 
@@ -91,19 +81,19 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.7, ease }}
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 text-xs font-semibold tracking-wide" style={{ background: "rgba(37,99,235,0.08)", color: "#2563EB" }}>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 text-xs font-semibold tracking-wide bg-primary/10 text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
               Trusted by 500+ Dealerships
             </div>
 
-            <h1 className="text-4xl xl:text-5xl font-display font-bold leading-[1.12] mb-5" style={{ color: "#0F172A" }}>
+            <h1 className="text-4xl xl:text-5xl font-display font-bold leading-[1.12] mb-5 text-foreground">
               Drive your dealership{" "}
-              <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span className="bg-gradient-to-r from-primary to-[hsl(267,56%,53%)] bg-clip-text text-transparent">
                 into the future
               </span>
             </h1>
 
-            <p className="text-base xl:text-lg leading-relaxed mb-10" style={{ color: "#475569" }}>
+            <p className="text-base xl:text-lg leading-relaxed mb-10 text-muted-foreground">
               Manage inventory, track sales, schedule services, and grow your business — all from one powerful, AI-driven platform built for modern dealerships.
             </p>
           </motion.div>
@@ -117,8 +107,8 @@ export default function Login() {
           >
             {stats.map((s) => (
               <div key={s.label}>
-                <p className="text-2xl xl:text-3xl font-display font-bold" style={{ color: "#0F172A" }}>{s.value}</p>
-                <p className="text-xs font-medium mt-0.5" style={{ color: "#94A3B8" }}>{s.label}</p>
+                <p className="text-2xl xl:text-3xl font-display font-bold text-foreground">{s.value}</p>
+                <p className="text-xs font-medium mt-0.5 text-muted-foreground">{s.label}</p>
               </div>
             ))}
           </motion.div>
@@ -133,16 +123,13 @@ export default function Login() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className="rounded-xl p-4 transition-all duration-200 hover:shadow-md cursor-default group"
-                style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(8px)", border: "1px solid rgba(226,232,240,0.7)" }}
-                onMouseEnter={(e) => { (e.currentTarget.style.borderColor = "rgba(37,99,235,0.2)"); }}
-                onMouseLeave={(e) => { (e.currentTarget.style.borderColor = "rgba(226,232,240,0.7)"); }}
+                className="rounded-xl p-4 transition-all duration-200 hover:shadow-md cursor-default group bg-card/60 backdrop-blur-sm border border-border/70 hover:border-primary/20"
               >
-                <div className="h-8 w-8 rounded-lg flex items-center justify-center mb-2.5" style={{ background: "rgba(37,99,235,0.08)" }}>
-                  <f.icon className="h-4 w-4" style={{ color: "#2563EB" }} />
+                <div className="h-8 w-8 rounded-lg flex items-center justify-center mb-2.5 bg-primary/10">
+                  <f.icon className="h-4 w-4 text-primary" />
                 </div>
-                <p className="font-semibold text-sm mb-0.5" style={{ color: "#0F172A" }}>{f.title}</p>
-                <p className="text-[11px] leading-relaxed" style={{ color: "#64748B" }}>{f.desc}</p>
+                <p className="font-semibold text-sm mb-0.5 text-foreground">{f.title}</p>
+                <p className="text-[11px] leading-relaxed text-muted-foreground">{f.desc}</p>
               </div>
             ))}
           </motion.div>
@@ -153,8 +140,7 @@ export default function Login() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="text-xs relative z-10"
-          style={{ color: "#94A3B8" }}
+          className="text-xs relative z-10 text-muted-foreground"
         >
           © 2026 Nexgile Automotive. All rights reserved.
         </motion.p>
@@ -180,34 +166,27 @@ export default function Login() {
             transition={{ duration: 0.4, ease }}
             className="lg:hidden flex items-center gap-2.5 mb-8 justify-center"
           >
-            <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)" }}>
-              <Car className="h-5 w-5 text-white" />
+            <div className="h-10 w-10 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+              <Car className="h-5 w-5" />
             </div>
-            <span className="font-display font-bold text-xl tracking-tight" style={{ color: "#0F172A" }}>Nexgile Auto</span>
+            <span className="font-display font-bold text-xl tracking-tight text-foreground">Nexgile Auto</span>
           </motion.div>
 
-          <div
-            className="rounded-2xl p-7 sm:p-9"
-            style={{
-              background: "#FFFFFF",
-              border: "1px solid #E8ECF2",
-              boxShadow: "0 8px 40px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.04)",
-            }}
-          >
+          <div className="rounded-2xl p-7 sm:p-9 bg-card border border-border" style={{ boxShadow: "var(--shadow-card)" }}>
             {/* Header */}
             <div className="mb-7">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-3 text-[11px] font-semibold tracking-wide uppercase" style={{ background: "rgba(37,99,235,0.07)", color: "#2563EB" }}>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-3 text-[11px] font-semibold tracking-wide uppercase bg-primary/10 text-primary">
                 <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
                 Secure Login
               </div>
-              <h2 className="text-2xl font-display font-bold mb-1" style={{ color: "#0F172A" }}>Welcome back</h2>
-              <p className="text-sm" style={{ color: "#64748B" }}>Sign in to access your dashboard</p>
+              <h2 className="text-2xl font-display font-bold mb-1 text-foreground">Welcome back</h2>
+              <p className="text-sm text-muted-foreground">Sign in to access your dashboard</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
               <div>
-                <label className="block text-xs font-semibold mb-2" style={{ color: "#334155" }}>Email Address</label>
+                <label className="block text-xs font-semibold mb-2 text-foreground/80">Email Address</label>
                 <input
                   type="email"
                   value={email}
@@ -216,16 +195,15 @@ export default function Login() {
                   onBlur={() => setFocused(null)}
                   placeholder="you@company.com"
                   required
-                  className="w-full h-12 rounded-xl px-4 text-sm outline-none transition-all duration-200"
-                  style={inputStyle("email")}
+                  className={`w-full h-12 rounded-xl px-4 text-sm outline-none transition-all duration-200 bg-secondary border text-foreground placeholder:text-muted-foreground ${focused === "email" ? "border-primary/50 bg-background ring-2 ring-primary/10" : "border-border"}`}
                 />
               </div>
 
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-semibold" style={{ color: "#334155" }}>Password</label>
-                  <button type="button" className="text-xs font-medium hover:underline" style={{ color: "#2563EB" }}>Forgot password?</button>
+                  <label className="block text-xs font-semibold text-foreground/80">Password</label>
+                  <button type="button" className="text-xs font-medium hover:underline text-primary">Forgot password?</button>
                 </div>
                 <div className="relative">
                   <input
@@ -236,16 +214,12 @@ export default function Login() {
                     onBlur={() => setFocused(null)}
                     placeholder="Enter your password"
                     required
-                    className="w-full h-12 rounded-xl px-4 pr-12 text-sm outline-none transition-all duration-200"
-                    style={inputStyle("password")}
+                    className={`w-full h-12 rounded-xl px-4 pr-12 text-sm outline-none transition-all duration-200 bg-secondary border text-foreground placeholder:text-muted-foreground ${focused === "password" ? "border-primary/50 bg-background ring-2 ring-primary/10" : "border-border"}`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
-                    style={{ color: "#94A3B8" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#475569")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#94A3B8")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors text-muted-foreground hover:text-foreground"
                   >
                     <AnimatePresence mode="wait">
                       <motion.div key={showPassword ? "h" : "s"} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.15 }}>
@@ -259,8 +233,8 @@ export default function Login() {
               {/* Error */}
               <AnimatePresence>
                 {error && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="rounded-xl px-4 py-3 overflow-hidden" style={{ background: "#FEF2F2", border: "1px solid #FECACA" }}>
-                    <p className="text-xs font-medium" style={{ color: "#DC2626" }}>{error}</p>
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="rounded-xl px-4 py-3 overflow-hidden bg-destructive/10 border border-destructive/20">
+                    <p className="text-xs font-medium text-destructive">{error}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -269,10 +243,10 @@ export default function Login() {
               <motion.button
                 type="submit"
                 disabled={isLoading}
-                whileHover={{ scale: 1.01, boxShadow: "0 8px 28px rgba(37,99,235,0.3)" }}
+                whileHover={{ scale: 1.01, boxShadow: "0 8px 28px hsl(var(--primary) / 0.3)" }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full h-12 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 text-white transition-all relative overflow-hidden"
-                style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 16px rgba(37,99,235,0.2)", opacity: isLoading ? 0.75 : 1 }}
+                className="w-full h-12 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 text-primary-foreground transition-all relative overflow-hidden bg-primary"
+                style={{ boxShadow: "0 4px 16px hsl(var(--primary) / 0.2)", opacity: isLoading ? 0.75 : 1 }}
               >
                 <motion.div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)" }} animate={{ x: ["-100%", "200%"] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }} />
                 {isLoading ? (
@@ -284,14 +258,14 @@ export default function Login() {
 
               {/* Divider */}
               <div className="flex items-center gap-3 py-1">
-                <div className="flex-1 h-px" style={{ background: "#E2E8F0" }} />
-                <span className="text-[11px] font-medium" style={{ color: "#94A3B8" }}>OR</span>
-                <div className="flex-1 h-px" style={{ background: "#E2E8F0" }} />
+                <div className="flex-1 h-px bg-border" />
+                <span className="text-[11px] font-medium text-muted-foreground">OR</span>
+                <div className="flex-1 h-px bg-border" />
               </div>
 
-              <p className="text-center text-sm" style={{ color: "#64748B" }}>
+              <p className="text-center text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link to="/register" className="font-semibold hover:underline" style={{ color: "#2563EB" }}>Create one</Link>
+                <Link to="/register" className="font-semibold hover:underline text-primary">Create one</Link>
               </p>
             </form>
           </div>
@@ -299,8 +273,8 @@ export default function Login() {
           {/* Trust badges */}
           <div className="flex items-center justify-center gap-5 mt-6 flex-wrap">
             {["256-bit SSL", "SOC2 Compliant", "99.9% Uptime"].map((badge) => (
-              <span key={badge} className="flex items-center gap-1.5 text-[11px] font-medium" style={{ color: "#94A3B8" }}>
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#22C55E" }} />
+              <span key={badge} className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-success" />
                 {badge}
               </span>
             ))}
